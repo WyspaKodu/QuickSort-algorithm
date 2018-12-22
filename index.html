@@ -1,0 +1,316 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+        }
+        h1 {
+        font-size:70px;
+            color: white;
+            font-weight: normal;
+            font-family: "BarlowCondensed";
+            
+        }
+        h2 {
+            font-size: 30px;
+            color: white;
+            font-weight: normal;
+        }
+        * {
+            text-align: center;
+            font-family: "Arial";
+            
+        }
+        p, label, input, button {
+            font-size: 28px;
+            margin: 20px;
+            cursor: pointer;
+        }
+        #header {
+            background-color: black;
+            margin: 0;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+       
+        input {
+            padding: 8px;            
+        }
+        
+        button {
+            background-color: black;
+            color: white;            
+            padding: 10px;
+        }
+        
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            
+        }       
+       
+        #results {
+            font-weight: bold;
+        }
+        
+        @media screen and (max-width: 980px) {
+            div {
+                width: 100% !important;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            #header {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+            
+        }
+        
+        
+    </style>
+    <script type="text/javascript">
+        var tab = [];
+        var highIndex = tab.length - 1;
+        var lowIndex = 0;
+        var o = 0;
+        var done = false;
+        var call = 0;
+
+        function generatetable(numberOfElements) {
+
+            if (done == false) {
+                if (numberOfElements > 30) tab.length = 30;
+                else {
+                    tab.length = numberOfElements;
+                }
+                var i;
+                document.getElementById('unsortedtable').innerHTML = '';
+                for (i = 0; i < tab.length; i++) {
+                    x = Math.round(Math.random() * 100);
+                    tab[i] = x;
+                    document.getElementById('unsortedtable').innerHTML += tab[i] + "  ";
+                }
+                highIndex = tab.length - 1;
+                return tab;
+            }
+        }
+
+        function partition(tab, low, high) {
+            call += 1;
+            let pivotposition = high;
+            if (call > 1) {
+                document.getElementById('ops').innerHTML += "<p>Rekurencja</p>";
+            }
+            document.getElementById('ops').innerHTML += "<p><br>Pivot to: " + tab[pivotposition] + ",indeks: " + pivotposition + "</p>";
+            let i = low - 1;
+            let j;
+            let temp;
+
+
+            for (j = low; j < high; j++) {
+                o++;
+                if (tab[j] <= tab[pivotposition]) {
+                    document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> sprawdzam:  " + tab[j] + "<=" + tab[pivotposition] + "   ,i=" + (i + 1) + "  j=" + j + "<br><br>";
+                    if ((i + 1) != j) {
+                        document.getElementById('ops').innerHTML += " zamiana " + tab[j] + " z " + tab[i + 1] + "<br><br>"
+                    }
+                    i = i + 1;
+                    temp = tab[i];
+                    tab[i] = tab[j];
+                    tab[j] = temp;
+
+                    for (k = 0; k <= high; k++) {
+                        document.getElementById('ops').innerHTML += tab[k] + "  ";
+
+                    }
+                    document.getElementById('ops').innerHTML += "<br><br>"
+
+
+                } else {
+                    if (i < 0) {
+
+                        document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> sprawdzam:  " + tab[j] + ">=" + tab[pivotposition] + "  ,i=" + 0 + " j=" + j + "<br><br>";
+                    } else {
+                        document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> sprawdzam:  " + tab[j] + ">=" + tab[pivotposition] + "   i=" + (i) + " j=" + j + "<br><br>";
+                    }
+                    for (k = 0; k <= high; k++) {
+                        document.getElementById('ops').innerHTML += tab[k] + "  ";
+
+                    }
+                    document.getElementById('ops').innerHTML += "<br><br>";
+
+                }
+
+
+            }
+            o++;
+
+            temp = tab[i + 1];
+            tab[i + 1] = tab[pivotposition];
+            tab[pivotposition] = temp;
+            pivotposition = i + 1;
+
+
+            document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> weryfikacja pozycji pivota:<br><br>";
+            for (k = 0; k <= high; k++) {
+                document.getElementById('ops').innerHTML += tab[k] + "  ";
+            }
+            return pivotposition;
+
+
+        }
+
+        function partition2(tab, lowIndex, highIndex) {
+            call += 1;
+            let pivotposition = lowIndex;
+            if (call > 1) {
+                document.getElementById('ops').innerHTML += "<p>Rekurencja</p>";
+            }
+            document.getElementById('ops').innerHTML += "<p><br>Pivot to: " + tab[pivotposition] + ",indeks: " + pivotposition + "</p>";
+            for (k = 0; k <= highIndex; k++) {
+                document.getElementById('ops').innerHTML += tab[k] + "  ";
+            }
+            var i = lowIndex;
+            var j = highIndex;
+            let temp;
+
+            while (1 > 0) {
+
+                while (tab[i] < tab[pivotposition]) {
+                    i = i + 1;
+                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[i] + "<" + tab[pivotposition] + " więc i=i+1=" + i;
+                }
+
+                while (tab[j] > tab[pivotposition]) {
+                    j = j - 1;
+                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[j] + ">" + tab[pivotposition] + " więc j=j-1=" + j;
+                }
+
+                if (i >= j) {
+                    document.getElementById('ops').innerHTML += "<br><br>i>=j!";
+                    break;
+                }
+
+                temp = tab[i];
+                tab[i] = tab[j];
+                tab[j] = temp;
+                document.getElementById('ops').innerHTML += "<br><br>zamiana: " + tab[i] + " z " + tab[j];
+                i = i + 1;
+                j = j - 1;
+                document.getElementById('ops').innerHTML += "<br><br>i=" + i + " ,j=" + j;
+
+            }
+            return j;
+
+        }
+
+
+
+        function quicksort(tab, lowIndex, highIndex) {
+            if (lowIndex < highIndex) {
+                var pivotposition = partition(tab, lowIndex, highIndex);
+
+                quicksort(tab, lowIndex, pivotposition - 1);
+                quicksort(tab, pivotposition + 1, highIndex);
+            }
+
+
+        }
+
+        function quicksort2(tab, lowIndex, highIndex) {
+            if (lowIndex < highIndex) {
+                var pivotposition = partition2(tab, lowIndex, highIndex);
+
+                quicksort2(tab, lowIndex, pivotposition);
+                quicksort2(tab, pivotposition + 1, highIndex);
+            }
+
+
+        }
+
+        function getNumberOfElements() {
+            var numberOfElements = document.getElementById('nr').value;
+            generatetable(numberOfElements);
+
+        }
+
+        function clear() {
+            done = false;
+            location.reload(true);
+        }
+
+    </script>
+    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed&amp;subset=latin-ext" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Barlow&amp;subset=latin-ext" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="header">
+
+        <h1>Algorytm QuickSort</h1>
+        <h2>implemented by <span style="color: #2c750c;">//</span> Wyspa Kodu</h2>
+    </div>
+    <div style="width: 50%;float: left;">
+        <p style="margin-bottom: 40px;padding-left: 2%; padding-right: 2%;text-align: justify;">Ten program jest implementacją w języku Java Script algorytmu QuickSort (tzw. Sortowanie Szybkie) wynalezionego przez prof. C.A.R. Hoare'a w 1962 roku wg. wariantu Nico Lomuto (Lomuto partition scheme), w którym pivot stanowi ostatni element tablicy (z prawej) oraz w wydajniejszym wariancie profesora Hoare'a (Hoare partition scheme).</p>
+        <p>Tablica do sortowania:<br><br><span id="unsortedtable">wygeneruj tablicę </span></p><br>
+        <p style="margin-top: 0px;padding-top: 0px;">Posortowana tablica:<br><br><span id="results"></span></p>
+    </div>
+    <div style="width: 50%;float: left; margin-top: 40px;">
+        <p>Wybierz wariant:</p>
+        <input type="radio" name="algorithmtype" id="algorithmtype1" value="L">
+        <label for="algorithmtype1">Lomuto partition scheme</label><br>
+        <input type="radio" name="algorithmtype" id="algorithmtype2" style="margin-bottom: 40px;" value="H">
+        <label for="algorithmtype2">Hoare partition scheme</label><br><br>
+
+        <label for="nr">Podaj ilość elementów tablicy:</label><br>
+        <input type="number" min="2" max="20" name="nr" id="nr">
+        <input type="button" value="Generuj tablicę" id="formbtn" style="background-color: #2c750c; color: white;"><br>
+
+        <button id="sort" type="button" style="background-color: #2c750c; color: white;">QuickSort</button>
+        <button id="clear" type="button" style="margin-bottom: 40px;">Wyczyść</button>
+    </div>
+    <div style="width: 100%;float: left;">
+        <p id="ops"><span style="font-weight: bold;">Wykaz operacji:</span><br><br></p>
+    </div>
+
+
+
+    <script>
+        var btn2 = document.getElementById("formbtn");
+        btn2.addEventListener("click", getNumberOfElements);
+        var btn3 = document.getElementById("clear");
+        btn3.addEventListener("click", clear);
+
+        var btn = document.getElementById('sort');
+        btn.addEventListener("click", function() {
+            if ((done == false) && (tab.length > 0)) {
+                if (document.getElementById('algorithmtype1').checked == true) {
+                    quicksort(tab, lowIndex, highIndex);
+                    document.getElementById('results').innerHTML += "<span style='font-weight: bold;'>";
+                    for (k = 0; k < tab.length; k++) {
+                        document.getElementById('results').innerHTML += tab[k] + "  ";
+                    }
+                    done = true;
+                }
+
+                if (document.getElementById('algorithmtype2').checked == true) {
+                    quicksort2(tab, lowIndex, highIndex);
+                    document.getElementById('results').innerHTML += "<span style='font-weight: bold;'>";
+                    for (k = 0; k < tab.length; k++) {
+                        document.getElementById('results').innerHTML += tab[k] + "  ";
+                    }
+                    done = true;
+                }
+
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>
