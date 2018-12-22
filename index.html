@@ -74,10 +74,9 @@
     <script type="text/javascript">
         var tab = [];
         var highIndex = tab.length - 1;
-        var lowIndex = 0;
-        var o = 0;
+        var lowIndex = 0;        
         var done = false;
-        var call = 0;
+        
 
         function generatetable(numberOfElements) {
 
@@ -99,109 +98,63 @@
         }
 
         function partition(tab, low, high) {
-            call += 1;
-            let pivotposition = high;
-            if (call > 1) {
-                document.getElementById('ops').innerHTML += "<p>Rekurencja</p>";
-            }
-            document.getElementById('ops').innerHTML += "<p><br>Pivot to: " + tab[pivotposition] + ",indeks: " + pivotposition + "</p>";
+            
+            let pivotposition = high;           
             let i = low - 1;
             let j;
             let temp;
 
 
             for (j = low; j < high; j++) {
-                o++;
-                if (tab[j] <= tab[pivotposition]) {
-                    document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> sprawdzam:  " + tab[j] + "<=" + tab[pivotposition] + "   ,i=" + (i + 1) + "  j=" + j + "<br><br>";
-                    if ((i + 1) != j) {
-                        document.getElementById('ops').innerHTML += " zamiana " + tab[j] + " z " + tab[i + 1] + "<br><br>"
-                    }
+                
+                if (tab[j] <= tab[pivotposition]) {                    
+                   
                     i = i + 1;
                     temp = tab[i];
                     tab[i] = tab[j];
                     tab[j] = temp;
-
-                    for (k = 0; k <= high; k++) {
-                        document.getElementById('ops').innerHTML += tab[k] + "  ";
-
-                    }
-                    document.getElementById('ops').innerHTML += "<br><br>"
-
-
-                } else {
-                    if (i < 0) {
-
-                        document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> sprawdzam:  " + tab[j] + ">=" + tab[pivotposition] + "  ,i=" + 0 + " j=" + j + "<br><br>";
-                    } else {
-                        document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> sprawdzam:  " + tab[j] + ">=" + tab[pivotposition] + "   i=" + (i) + " j=" + j + "<br><br>";
-                    }
-                    for (k = 0; k <= high; k++) {
-                        document.getElementById('ops').innerHTML += tab[k] + "  ";
-
-                    }
-                    document.getElementById('ops').innerHTML += "<br><br>";
-
-                }
-
-
-            }
-            o++;
+                    
+                } 
+            }            
 
             temp = tab[i + 1];
             tab[i + 1] = tab[pivotposition];
             tab[pivotposition] = temp;
             pivotposition = i + 1;
 
-
-            document.getElementById('ops').innerHTML += "<span style='font-weight: bold;'>operacja " + o + ":</span> weryfikacja pozycji pivota:<br><br>";
-            for (k = 0; k <= high; k++) {
-                document.getElementById('ops').innerHTML += tab[k] + "  ";
-            }
             return pivotposition;
-
 
         }
 
         function partition2(tab, lowIndex, highIndex) {  // Hoare partition scheme
-            call += 1;
+            
             let pivotposition = lowIndex;
-            if (call > 1) {
-                document.getElementById('ops').innerHTML += "<p>Rekurencja</p>";
-            }
-            document.getElementById('ops').innerHTML += "<p><br>Pivot to: " + tab[pivotposition] + ",indeks: " + pivotposition + "</p>";
-            for (k = 0; k <= highIndex; k++) {
-                document.getElementById('ops').innerHTML += tab[k] + "  ";
-            }
             var i = lowIndex;
             var j = highIndex;
             let temp;
 
-            while (1 > 0) {
-                document.getElementById('ops').innerHTML += "<br><br>Indeksy i oraz j startują z przeciwnych końców tablicy, sprawdzam kolejno które i są mniejsze od pivota i jeśli warunek jest spełniony to i++, następnie sprawdzam, które j są większe od pivota i jeśli warunek jest spełniony to j--. Gdy i>=j dokonuję zamiany tab[i] z tab[j]";
+            while (1 > 0) {                
 
                 while (tab[i] < tab[pivotposition]) {
                     i = i + 1;
-                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[i-1] + "<" + tab[pivotposition] + " więc i=i+1=" + i;
+                    
                 }
 
                 while (tab[j] > tab[pivotposition]) {
                     j = j - 1;
-                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[j+1] + ">" + tab[pivotposition] + " więc j=j-1=" + j;
+                    
                 }
 
-                if (i >= j) {
-                    document.getElementById('ops').innerHTML += "<br><br>i>=j!";
+                if (i >= j) {                    
                     break;
                 }
 
                 temp = tab[i];
                 tab[i] = tab[j];
                 tab[j] = temp;
-                document.getElementById('ops').innerHTML += "<br><br>zamiana: " + tab[i] + " z " + tab[j];
+                
                 i = i + 1;
-                j = j - 1;
-                document.getElementById('ops').innerHTML += "<br><br>i=" + i + " ,j=" + j;
+                j = j - 1;                
 
             }
             return j;
@@ -273,10 +226,7 @@
 
         <button id="sort" type="button" style="background-color: #2c750c; color: white;">QuickSort</button>
         <button id="clear" type="button" style="margin-bottom: 40px;">Wyczyść</button>
-    </div>
-    <div style="width: 100%;float: left;">
-        <p id="ops"><span style="font-weight: bold;">Wykaz operacji:</span><br><br></p>
-    </div>
+    </div>   
 
 
 
