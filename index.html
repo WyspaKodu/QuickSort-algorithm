@@ -163,7 +163,7 @@
 
         }
 
-        function partition2(tab, lowIndex, highIndex) {
+        function partition2(tab, lowIndex, highIndex) {  // Hoare partition scheme
             call += 1;
             let pivotposition = lowIndex;
             if (call > 1) {
@@ -178,15 +178,16 @@
             let temp;
 
             while (1 > 0) {
+                document.getElementById('ops').innerHTML += "<br><br>Indeksy i oraz j startują z przeciwnych końców tablicy, sprawdzam kolejno które i są mniejsze od pivota i jeśli warunek jest spełniony to i++, następnie sprawdzam, które j są większe od pivota i jeśli warunek jest spełniony to j--. Gdy i>=j dokonuję zamiany tab[i] z tab[j]";
 
                 while (tab[i] < tab[pivotposition]) {
                     i = i + 1;
-                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[i] + "<" + tab[pivotposition] + " więc i=i+1=" + i;
+                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[i-1] + "<" + tab[pivotposition] + " więc i=i+1=" + i;
                 }
 
                 while (tab[j] > tab[pivotposition]) {
                     j = j - 1;
-                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[j] + ">" + tab[pivotposition] + " więc j=j-1=" + j;
+                    document.getElementById('ops').innerHTML += "<br><br>sprawdzam: " + tab[j+1] + ">" + tab[pivotposition] + " więc j=j-1=" + j;
                 }
 
                 if (i >= j) {
